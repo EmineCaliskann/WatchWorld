@@ -1,11 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
@@ -25,7 +20,7 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
-            //oluşturacağımız  configirasyon dosyalarını implementasyonnu sağlıyor
+            //oluşturacağımız  konfigirasyon dosyalarını implementasyonunu sağlıyor.
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         }
