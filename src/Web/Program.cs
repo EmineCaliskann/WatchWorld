@@ -45,4 +45,17 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+//program çalýmadan önce 1 kere çðýrýldýðýndan emin olalým ki uygulama sürekli çalýþýp yorulmasýn 
+//scope oluþturduk (servis)
+using (var scope = app.Services.CreateScope() )
+{
+    var watchWorldContext =scope.ServiceProvider.GetRequiredService<WatchWorldContext>();
+    var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>(); 
+    var roleManager =scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager =scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    await AppIdentityDbContextSeed.SeedAsync(identityContext, roleManager, userManager);
+    await WatchWorldContextSeed.SeedAsync(watchWorldContext);
+}
+
 app.Run();
