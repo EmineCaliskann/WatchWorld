@@ -3,6 +3,8 @@ using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Web.Interfaces;
+using Web.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,7 @@ builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql
 
 //Irepo yu ef repo ile ilþkilendirirerek ekledik(watchworld contexti kendisi enjekte edicek o konfig)
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+builder.Services.AddScoped<IHomeViewModelService, HomeViewModelService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
@@ -39,6 +42,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//**
+app.UseRequestLocalization("en-US");
 
 app.UseRouting();
 
@@ -49,7 +54,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-//program çalýmadan önce 1 kere çðýrýldýðýndan emin olalým ki uygulama sürekli çalýþýp yorulmasýn 
+//program çalýmadan önce 1 kere çaðýrýldýðýndan emin olalým ki uygulama sürekli çalýþýp yorulmasýn 
 //scope oluþturduk (servis)
 using (var scope = app.Services.CreateScope() )
 {
