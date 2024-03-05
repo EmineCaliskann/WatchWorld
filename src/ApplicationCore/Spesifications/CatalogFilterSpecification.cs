@@ -21,6 +21,11 @@ namespace ApplicationCore.Spesification
                 Query.Where(x => x.BrandId == brandId);
             }
         }
-
+        public CatalogFilterSpesification(int? categoryId, int? brandId,int skip,int take) :this(categoryId,brandId)
+        {
+            Query.Skip(skip).Take(take);           
+        }
+            
+        
     }
 }
