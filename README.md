@@ -36,6 +36,8 @@ Update-Database -Context WatchWorldContext
 Add-Migration InitialIdentity -Context AppIdentityDbContext -OutputDir Identity/Migrations
 
 Update-Database -Context AppIdentityDbContext
+
+
 ```
 
 
