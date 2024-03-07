@@ -45,5 +45,11 @@ namespace Web.Services
             var basket = await _basketService.AddItemToBasketAsync(BuyerId, productId, quantity);
             return basket.ToBasketViewModel();
         }
+
+        public async  Task<BasketViewModel> GetBasketViewModelAsync()
+        {
+            var basket = await _basketService.GetOrCreateBasketAsync(BuyerId);
+            return basket.ToBasketViewModel();
+        }
     }
 }
