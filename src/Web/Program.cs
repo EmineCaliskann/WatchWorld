@@ -1,4 +1,5 @@
 using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WatchWorldContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("WatchWorldContext")));
 
 builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AppIdentityDbContext")));
-
+//**
+builder.Services.AddHttpContextAccessor();
 //Irepo yu ef repo ile ilþkilendirirerek ekledik(watchworld contexti kendisi enjekte edicek o konfig)
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+//**
+builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IHomeViewModelService, HomeViewModelService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
