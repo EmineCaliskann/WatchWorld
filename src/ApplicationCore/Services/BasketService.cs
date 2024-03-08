@@ -23,7 +23,7 @@ namespace ApplicationCore.Services
 
             if (basketItem != null) 
             {
-                basketItem.Quantity = quantity;
+                basketItem.Quantity += quantity;
             }
             else
             {
@@ -51,10 +51,13 @@ namespace ApplicationCore.Services
             }
         }
 
+
+
+
         public async Task EmptyBasketAsync(string buyerId)
         {
             var basket = await GetOrCreateBasketAsync(buyerId);
-            foreach (var item in basket.Items) 
+            foreach (var item in basket.Items.ToList()) 
             { 
             await _basketItemRepo.DeleteAsync(item);
             }
