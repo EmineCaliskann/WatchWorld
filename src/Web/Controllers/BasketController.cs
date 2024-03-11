@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
+using Microsoft.AspNetCore.Mvc;
 using Web.Interfaces;
 using Web.Services;
 
@@ -7,10 +9,12 @@ namespace Web.Controllers
     public class BasketController : Controller
     {
         private readonly IBasketViewModelService _basketViewModelService;
+        
 
         public BasketController(IBasketViewModelService basketViewModelService)
         {
             _basketViewModelService = basketViewModelService;
+            
         }
 
         public async Task<IActionResult> Index()
@@ -34,5 +38,20 @@ namespace Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveItem(int productId)
+        {
+            await _basketViewModelService.RemoveItemAsync(productId);
+            TempData["Message"] = "Item  removed from the basket.";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update([Bind("quantities")] Dictionary<int, int> quantities)
+        {
+            await _basketViewModelService.SetQuantitiesAsync(quantities);
+            TempData["Message"] = "Items has been updated succesfully.";
+            return RedirectToAction("Index");
+        }
     }
 }

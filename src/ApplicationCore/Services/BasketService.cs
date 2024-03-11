@@ -4,7 +4,7 @@ using ApplicationCore.Spesifications;
 
 namespace ApplicationCore.Services
 {
-    public class BasketService : IBasketService
+    public  class BasketService : IBasketService
     {
         private readonly IRepository<Basket> _basketRepo;
         private readonly IRepository<BasketItem> _basketItemRepo;
